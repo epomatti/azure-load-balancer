@@ -30,6 +30,7 @@ module "vm001" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   vm_number           = "001"
+  vm_zone             = "1"
   subnet_id           = module.vnet.subnet_vms_id
   size                = var.vm_size
   admin_username      = var.vm_admin_username
@@ -46,6 +47,7 @@ module "vm002" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   vm_number           = "002"
+  vm_zone             = "2"
   subnet_id           = module.vnet.subnet_vms_id
   size                = var.vm_size
   admin_username      = var.vm_admin_username

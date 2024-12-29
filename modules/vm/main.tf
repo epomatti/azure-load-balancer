@@ -34,6 +34,7 @@ resource "azurerm_linux_virtual_machine" "default" {
   size                  = var.size
   admin_username        = var.admin_username
   network_interface_ids = [azurerm_network_interface.default.id]
+  zone                  = var.vm_zone
 
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
