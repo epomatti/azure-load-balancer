@@ -1,16 +1,17 @@
 locals {
-  nic_ipconfig_name = "ipconfig1"
+  nic_ipconfig_name = "ipconfig${var.vm_number}"
+  resource_suffix   = "${var.workload}-${var.vm_number}"
 }
 
 resource "azurerm_public_ip" "default" {
-  name                = "pip-${var.workload}"
+  name                = "pip-${local.resource_suffix}"
   resource_group_name = var.resource_group_name
   location            = var.location
   allocation_method   = "Static"
 }
 
 resource "azurerm_network_interface" "default" {
-  name                = "nic-${var.workload}"
+  name                = "nic-${local.resource_suffix}"
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -27,7 +28,7 @@ resource "azurerm_network_interface" "default" {
 }
 
 resource "azurerm_linux_virtual_machine" "default" {
-  name                  = "vm-${var.workload}"
+  name                  = "vm-${local.resource_suffix}"
   resource_group_name   = var.resource_group_name
   location              = var.location
   size                  = var.size
@@ -46,7 +47,7 @@ resource "azurerm_linux_virtual_machine" "default" {
   }
 
   os_disk {
-    name                 = "osdisk-linux-${var.workload}"
+    name                 = "osdisk-linux-${local.resource_suffix}"
     caching              = "ReadOnly"
     storage_account_type = "StandardSSD_LRS"
   }

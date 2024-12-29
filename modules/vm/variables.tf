@@ -10,6 +10,10 @@ variable "workload" {
   type = string
 }
 
+variable "vm_number" {
+  type = string
+}
+
 variable "subnet_id" {
   type = string
 }

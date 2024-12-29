@@ -19,7 +19,7 @@ Set the required variables:
 subscription_id = ""
 ```
 
-Create the virtual machine keys:
+Create the virtual machines keys:
 
 ```sh
 mkdir .keys && ssh-keygen -f .keys/temp_rsa
@@ -32,9 +32,9 @@ terraform init
 terraform apply -auto-approve
 ```
 
-## Testing
+## Using the Load Balancer
 
-The solution will be deployed with NGINX.
+The solution will be deployed two virtual machines running NGINX.
 
 Simply call the LB public IP and port:
 

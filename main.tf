@@ -24,11 +24,28 @@ module "vnet" {
   allowed_source_address_prefixes = var.allowed_source_address_prefixes
 }
 
-module "vm" {
+module "vm001" {
   source              = "./modules/vm"
   workload            = local.workload
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
+  vm_number           = "001"
+  subnet_id           = module.vnet.subnet_vms_id
+  size                = var.vm_size
+  admin_username      = var.vm_admin_username
+  public_key_path     = var.vm_public_key_path
+  image_publisher     = var.vm_image_publisher
+  image_offer         = var.vm_image_offer
+  image_sku           = var.vm_image_sku
+  image_version       = var.vm_image_version
+}
+
+module "vm002" {
+  source              = "./modules/vm"
+  workload            = local.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  vm_number           = "002"
   subnet_id           = module.vnet.subnet_vms_id
   size                = var.vm_size
   admin_username      = var.vm_admin_username
@@ -45,6 +62,6 @@ module "load_balancer" {
   location                   = azurerm_resource_group.default.location
   workload                   = local.workload
   vnet_id                    = module.vnet.vnet_id
-  vm001_nic_ipconfig_name    = module.vm.nic_ipconfig_name
-  vm001_network_interface_id = module.vm.network_interface_id
+  vm001_nic_ipconfig_name    = module.vm001.nic_ipconfig_name
+  vm001_network_interface_id = module.vm001.network_interface_id
 }

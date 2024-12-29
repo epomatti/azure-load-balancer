@@ -22,10 +22,21 @@ resource "azurerm_lb" "default" {
   }
 }
 
+
+##############
+### Pool 1 ###
+##############
+
 resource "azurerm_lb_backend_address_pool" "public_pool" {
-  loadbalancer_id = azurerm_lb.default.id
-  name            = "public-pool"
+  loadbalancer_id    = azurerm_lb.default.id
+  name               = "public-pool"
+  virtual_network_id = null
+  synchronous_mode   = null
 }
+
+##############
+### Pool 2 ###
+##############
 
 # https://github.com/Azure/azure-cli/issues/27090
 resource "azurerm_lb_backend_address_pool" "vnet_pool" {
