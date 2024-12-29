@@ -32,4 +32,15 @@ terraform init
 terraform apply -auto-approve
 ```
 
+## Testing
+
+The solution will be deployed with NGINX.
+
+Simply call the LB public IP and port:
+
+```sh
+curl <lb-public-ip>:80
+```
+
+
 [1]: https://learn.microsoft.com/en-us/azure/load-balancer/skus
