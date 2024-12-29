@@ -34,13 +34,28 @@ terraform apply -auto-approve
 
 ## Using the Load Balancer
 
+### Simple HTTP
+
 The solution will be deployed two virtual machines running NGINX.
 
-Simply call the LB public IP and port:
+Simply call the LB public IP and port `80`:
 
 ```sh
-curl <lb-public-ip>:80
+curl loadbalancer:80
 ```
+
+This will balance the request across the pool
+
+### Inbound NAT rule
+
+An [inbound NAT rule][2] with port `22` will direct the requests exclusively to VM001.
+
+To use it, SSH using the load balance public IP, instead of the VM.
+
+For this project configuration in particular, the options [TCP rest and idle timeout][3] and [floating IP][4] are enabled.
 
 
 [1]: https://learn.microsoft.com/en-us/azure/load-balancer/skus
+[2]: https://learn.microsoft.com/en-us/azure/load-balancer/inbound-nat-rules
+[3]: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-tcp-idle-timeout?tabs=tcp-reset-idle-portal
+[4]: https://learn.microsoft.com/en-us/azure/load-balancer/load-balancer-floating-ip
