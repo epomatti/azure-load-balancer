@@ -58,6 +58,15 @@ module "vm002" {
   image_version       = var.vm_image_version
 }
 
+module "nat_gateway" {
+  source              = "./modules/nat"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  workload            = local.workload
+  nat_subnet_id       = module.vnet.subnet_nat_id
+  vms_subnet_id       = module.vnet.subnet_vms_id
+}
+
 module "load_balancer" {
   source              = "./modules/load-balancer"
   resource_group_name = azurerm_resource_group.default.name
