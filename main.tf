@@ -24,6 +24,15 @@ module "vnet" {
   allowed_source_address_prefixes = var.allowed_source_address_prefixes
 }
 
+module "nat_gateway" {
+  source              = "./modules/nat"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  workload            = local.workload
+  nat_subnet_id       = module.vnet.subnet_nat_id
+  vms_subnet_id       = module.vnet.subnet_vms_id
+}
+
 module "vm001" {
   source              = "./modules/vm"
   workload            = local.workload
@@ -56,15 +65,6 @@ module "vm002" {
   image_offer         = var.vm_image_offer
   image_sku           = var.vm_image_sku
   image_version       = var.vm_image_version
-}
-
-module "nat_gateway" {
-  source              = "./modules/nat"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
-  workload            = local.workload
-  nat_subnet_id       = module.vnet.subnet_nat_id
-  vms_subnet_id       = module.vnet.subnet_vms_id
 }
 
 module "load_balancer" {

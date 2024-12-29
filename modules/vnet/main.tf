@@ -8,17 +8,19 @@ resource "azurerm_virtual_network" "default" {
 
 ### Subnets ###
 resource "azurerm_subnet" "vms" {
-  name                 = "sub-vms"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.0.0.0/24"]
+  name                            = "sub-vms"
+  resource_group_name             = var.resource_group_name
+  virtual_network_name            = azurerm_virtual_network.default.name
+  address_prefixes                = ["10.0.0.0/24"]
+  default_outbound_access_enabled = false
 }
 
 resource "azurerm_subnet" "nat" {
-  name                 = "sub-nat"
-  resource_group_name  = var.resource_group_name
-  virtual_network_name = azurerm_virtual_network.default.name
-  address_prefixes     = ["10.0.55.0/24"]
+  name                            = "sub-nat"
+  resource_group_name             = var.resource_group_name
+  virtual_network_name            = azurerm_virtual_network.default.name
+  address_prefixes                = ["10.0.55.0/24"]
+  default_outbound_access_enabled = false
 }
 
 ### Network Security Group - Virtual Machines

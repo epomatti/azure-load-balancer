@@ -32,6 +32,16 @@ terraform init
 terraform apply -auto-approve
 ```
 
+Confirm if the virtual machines have been initiated correctly:
+
+> [!NOTE]
+> The NAT Gateway will be created in parallel with the VMs
+
+```sh
+cloud-init status
+```
+
+
 ## Using the Load Balancer
 
 ### Simple HTTP
