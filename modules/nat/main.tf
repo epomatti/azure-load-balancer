@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "default" {
-  name                = "pip-nat-gateway-${var.workload}"
+  name                = "pip-nat-${var.workload}"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
@@ -8,7 +8,7 @@ resource "azurerm_public_ip" "default" {
 }
 
 resource "azurerm_nat_gateway" "default" {
-  name                    = "nat-gateway-${var.workload}"
+  name                    = "nat-${var.workload}"
   location                = var.location
   resource_group_name     = var.resource_group_name
   sku_name                = "Standard"
