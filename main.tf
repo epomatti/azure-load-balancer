@@ -57,11 +57,17 @@ module "vm002" {
 }
 
 module "load_balancer" {
-  source                     = "./modules/load-balancer"
-  resource_group_name        = azurerm_resource_group.default.name
-  location                   = azurerm_resource_group.default.location
-  workload                   = local.workload
-  vnet_id                    = module.vnet.vnet_id
+  source              = "./modules/load-balancer"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  workload            = local.workload
+  vnet_id             = module.vnet.vnet_id
+
+  # VM001
   vm001_nic_ipconfig_name    = module.vm001.nic_ipconfig_name
   vm001_network_interface_id = module.vm001.network_interface_id
+
+  # VM002
+  vm002_nic_ipconfig_name    = module.vm002.nic_ipconfig_name
+  vm002_network_interface_id = module.vm002.network_interface_id
 }

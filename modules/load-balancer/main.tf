@@ -22,52 +22,54 @@ resource "azurerm_lb" "default" {
   }
 }
 
-
 ##############
 ### Pool 1 ###
 ##############
 
-resource "azurerm_lb_backend_address_pool" "public_pool" {
-  loadbalancer_id    = azurerm_lb.default.id
-  name               = "public-pool"
+resource "azurerm_lb_backend_address_pool" "pool_001" {
+  loadbalancer_id = azurerm_lb.default.id
+  name            = "pool-001"
+
+  # Setting both to "null" equals the Azure Portal default behavior
+  # I'm not yet sure what it differs from "Automatic" and "Manual"
   virtual_network_id = null
   synchronous_mode   = null
 }
 
-##############
-### Pool 2 ###
-##############
-
-# https://github.com/Azure/azure-cli/issues/27090
-resource "azurerm_lb_backend_address_pool" "vnet_pool" {
-  loadbalancer_id    = azurerm_lb.default.id
-  name               = "vnet-pool"
-  virtual_network_id = var.vnet_id
-  synchronous_mode   = "Automatic"
-}
-
-# This replaces "azurerm_lb_backend_address_pool_address"
-# https://learn.microsoft.com/en-us/azure/load-balancer/quickstart-load-balancer-standard-internal-terraform
-resource "azurerm_network_interface_backend_address_pool_association" "name" {
+resource "azurerm_network_interface_backend_address_pool_association" "vm001" {
   network_interface_id    = var.vm001_network_interface_id
   ip_configuration_name   = var.vm001_nic_ipconfig_name
-  backend_address_pool_id = azurerm_lb_backend_address_pool.vnet_pool.id
+  backend_address_pool_id = azurerm_lb_backend_address_pool.pool_001.id
 }
 
-resource "azurerm_lb_probe" "vm001_nginx" {
+resource "azurerm_network_interface_backend_address_pool_association" "vm002" {
+  network_interface_id    = var.vm002_network_interface_id
+  ip_configuration_name   = var.vm002_nic_ipconfig_name
+  backend_address_pool_id = azurerm_lb_backend_address_pool.pool_001.id
+}
+
+##############
+### Probes ###
+##############
+
+locals {
+  http_port = 80
+}
+
+resource "azurerm_lb_probe" "http" {
   loadbalancer_id = azurerm_lb.default.id
-  name            = "vm001-nginx-probe"
-  port            = 80
+  name            = "http-probe"
+  port            = local.http_port
 }
 
-resource "azurerm_lb_rule" "vm001_nginx" {
+resource "azurerm_lb_rule" "http" {
   loadbalancer_id                = azurerm_lb.default.id
-  name                           = "LBRule"
+  name                           = "http-rule"
   protocol                       = "Tcp"
-  frontend_port                  = 80
-  backend_port                   = 80
+  frontend_port                  = local.http_port
+  backend_port                   = local.http_port
   frontend_ip_configuration_name = azurerm_lb.default.frontend_ip_configuration[0].name
   disable_outbound_snat          = true
-  probe_id                       = azurerm_lb_probe.vm001_nginx.id
-  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.vnet_pool.id]
+  probe_id                       = azurerm_lb_probe.http.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.pool_001.id]
 }

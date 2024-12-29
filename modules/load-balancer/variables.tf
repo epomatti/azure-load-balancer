@@ -21,3 +21,12 @@ variable "vm001_network_interface_id" {
 variable "vm001_nic_ipconfig_name" {
   type = string
 }
+
+variable "vm002_network_interface_id" {
+  type = string
+}
+
+variable "vm002_nic_ipconfig_name" {
+  type = string
+}
+

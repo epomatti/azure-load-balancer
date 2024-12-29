@@ -10,6 +10,7 @@
         "loadbalancer",
         "noninteractive",
         "osdisk",
+        "snat",
         "vnet"
     ],
     "ignoreWords": [],
