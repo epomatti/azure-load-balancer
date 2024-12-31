@@ -64,6 +64,10 @@ To use it, SSH using the load balance public IP, instead of the VM.
 
 For this project configuration in particular, the options [TCP rest and idle timeout][3] and [floating IP][4] are enabled.
 
+## Health extension
+
+This project deploys the [Application Health](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-health-extension?tabs=rest-api) extensions for [Linux](https://github.com/Azure/applicationhealth-extension-linux).
+
 
 [1]: https://learn.microsoft.com/en-us/azure/load-balancer/skus
 [2]: https://learn.microsoft.com/en-us/azure/load-balancer/inbound-nat-rules
