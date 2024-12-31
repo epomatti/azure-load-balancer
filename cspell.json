@@ -11,7 +11,8 @@
         "noninteractive",
         "osdisk",
         "snat",
-        "vnet"
+        "vnet",
+        "vtpm"
     ],
     "ignoreWords": [],
     "import": []

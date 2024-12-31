@@ -36,6 +36,10 @@ resource "azurerm_linux_virtual_machine" "default" {
   network_interface_ids = [azurerm_network_interface.default.id]
   zone                  = var.vm_zone
 
+  secure_boot_enabled               = true
+  vtpm_enabled                      = true
+  vm_agent_platform_updates_enabled = true
+
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
   identity {

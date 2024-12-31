@@ -7,8 +7,14 @@ terraform {
   }
 }
 
+resource "random_integer" "affix" {
+  min = 1000
+  max = 9999
+}
+
 locals {
-  workload = "contoso"
+  affix    = random_integer.affix.result
+  workload = "contoso${local.affix}"
 }
 
 resource "azurerm_resource_group" "default" {
