@@ -68,3 +68,21 @@ resource "azurerm_linux_virtual_machine" "default" {
     ignore_changes = [custom_data]
   }
 }
+
+resource "azurerm_virtual_machine_extension" "health_extension" {
+  name                       = "HealthExtension"
+  virtual_machine_id         = azurerm_linux_virtual_machine.default.id
+  publisher                  = "Microsoft.ManagedServices"
+  type                       = "ApplicationHealthLinux"
+  auto_upgrade_minor_version = true
+  automatic_upgrade_enabled  = true
+  type_handler_version       = "2.0"
+
+  settings = jsonencode({
+    "protocol" : "http",
+    "port" : 80,
+    "requestPath" : "/",
+    "intervalInSeconds" : 5,
+    "numberOfProbes" : 1
+  })
+}

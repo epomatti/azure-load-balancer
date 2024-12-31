@@ -7,6 +7,7 @@
         "azureuser",
         "contoso",
         "filebase",
+        "jsonencode",
         "loadbalancer",
         "noninteractive",
         "osdisk",
