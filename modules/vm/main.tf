@@ -38,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "default" {
 
   secure_boot_enabled               = true
   vtpm_enabled                      = true
-  vm_agent_platform_updates_enabled = true
+  vm_agent_platform_updates_enabled = false # Seems like Linux will always be false
 
   custom_data = filebase64("${path.module}/custom_data/ubuntu.sh")
 
@@ -69,7 +69,7 @@ resource "azurerm_linux_virtual_machine" "default" {
   }
 }
 
-resource "azurerm_virtual_machine_extension" "health_extension" {
+resource "azurerm_virtual_machine_extension" "health_extension_tcp" {
   name                       = "HealthExtension"
   virtual_machine_id         = azurerm_linux_virtual_machine.default.id
   publisher                  = "Microsoft.ManagedServices"
@@ -79,10 +79,28 @@ resource "azurerm_virtual_machine_extension" "health_extension" {
   type_handler_version       = "2.0"
 
   settings = jsonencode({
-    "protocol" : "http",
+    "protocol" : "tcp",
     "port" : 80,
-    "requestPath" : "/",
     "intervalInSeconds" : 5,
     "numberOfProbes" : 1
   })
 }
+
+# TODO: This request a custom response body
+# resource "azurerm_virtual_machine_extension" "health_extension_http" {
+#   name                       = "HealthExtension"
+#   virtual_machine_id         = azurerm_linux_virtual_machine.default.id
+#   publisher                  = "Microsoft.ManagedServices"
+#   type                       = "ApplicationHealthLinux"
+#   auto_upgrade_minor_version = true
+#   automatic_upgrade_enabled  = true
+#   type_handler_version       = "2.0"
+
+#   settings = jsonencode({
+#     "protocol" : "http",
+#     "port" : 80,
+#     "requestPath" : "/",
+#     "intervalInSeconds" : 5,
+#     "numberOfProbes" : 1
+#   })
+# }
