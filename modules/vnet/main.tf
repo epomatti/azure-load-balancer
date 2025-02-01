@@ -23,6 +23,18 @@ resource "azurerm_subnet" "nat" {
   default_outbound_access_enabled = false
 }
 
+resource "azurerm_subnet" "private_load_balancer" {
+  name                                          = "sub-private-lb"
+  resource_group_name                           = var.resource_group_name
+  virtual_network_name                          = azurerm_virtual_network.default.name
+  address_prefixes                              = ["10.0.88.0/24"]
+  default_outbound_access_enabled               = false
+
+  # These are default
+  private_endpoint_network_policies             = "Disabled"
+  private_link_service_network_policies_enabled = true
+}
+
 ### Network Security Group - Virtual Machines
 resource "azurerm_network_security_group" "virtual_machines" {
   name                = "nsg-vms"

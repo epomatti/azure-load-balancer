@@ -4,9 +4,11 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "azurerm",
         "azureuser",
         "contoso",
         "filebase",
+        "hashicorp",
         "jsonencode",
         "loadbalancer",
         "noninteractive",

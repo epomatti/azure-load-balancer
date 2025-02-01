@@ -9,3 +9,7 @@ output "subnet_vms_id" {
 output "subnet_nat_id" {
   value = azurerm_subnet.nat.id
 }
+
+output "subnet_private_load_balancer_id" {
+  value = azurerm_subnet.private_load_balancer.id
+}
